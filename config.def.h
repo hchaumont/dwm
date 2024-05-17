@@ -1,4 +1,5 @@
 /* See LICENSE file for copyright and license details. */
+#include <X11/XF86keysym.h>
 
 /* appearance */
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
@@ -59,6 +60,9 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_bg, "-nf", col_fg, "-sb", col_bg, "-sf", col_yellow, NULL };
 static const char *termcmd[]  = { "alacritty", NULL };
+static const char *up_vol[]   = { "wpctl", "set-volume", "@DEFAULT_SINK@", "2%+",   NULL };
+static const char *down_vol[] = { "wpctl", "set-volume", "@DEFAULT_SINK@", "2%-",   NULL };
+static const char *mute_vol[] = { "wpctl", "set-mute",   "@DEFAULT_SINK@", "toggle", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -95,6 +99,9 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+	{ 0, XF86XK_AudioMute,        spawn, {.v = mute_vol } },
+	{ 0, XF86XK_AudioLowerVolume, spawn, {.v = down_vol } },
+	{ 0, XF86XK_AudioRaiseVolume, spawn, {.v = up_vol } },
 };
 
 /* button definitions */
